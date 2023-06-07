@@ -1,0 +1,89 @@
+{% extends 'index.html' %}
+{% block title %} Create Variant {% endblock %}
+
+{% block content %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4 px-4">
+        <h1 class="h3 mb-0 text-gray-800">Product Category</h1>
+        <a href="{% url 'product:categories' %}" class="float-right btn btn-primary">All Category</a>
+
+        <a href="{% url 'product:category-create' %}" class="float-right btn btn-primary">+ New Category</a>
+    </div>
+
+    <div class="card shadow mb-4">
+        <form action="{% url 'product:category_search' %}" method="POST" class="card-header py-3">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="col-md-3">
+                    <input type="text" name="title" value="" placeholder="Serch" class="form-control">
+                </div>
+                <div class="col-md-1">
+                    <button class="btn btn-primary">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Active</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for category in category_list %}
+                        <tr>
+                            <td>{{ category.id }}</td>
+                            <td>{{ category.title }}</td>
+                            <td>{{ category.description }}</td>
+                            <td>{{ category.active }}</td>
+                            <td>
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                    <a href="{% url 'product:category-update' category.id %}"
+                                       class="btn btn-primary">Edit</a>
+                                    <a href="{% url 'product:category-delete' category.id %}"
+                                       class="btn btn-primary">Delete</a>                               
+                                 </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    {% for category in results %}
+                        <tr>
+                            <td>{{ category.id }}</td>
+                            <td>{{ category.title }}</td>
+                            <td>{{ category.description }}</td>
+                            <td>{{ category.active }}</td>
+                            <td>
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                    <a href="{% url 'product:category-update' category.id %}"
+                                       class="btn btn-primary">Edit</a>
+                                    <a href="{% url 'product:category-delete' category.id %}"
+                                       class="btn btn-primary">Delete</a>                               
+                                 </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="pagination">
+                <span class="page-links">
+                    {% if page_obj.has_previous %}
+                        <a href="/category-list/?browse={{ input }}&page={{ page_obj.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="page-current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    </span>
+                    {% if page_obj.has_next %}
+                        <a href="/category-list/?browse={{ input }}&page={{ page_obj.next_page_number }}">next</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </div>
+{% endblock %}

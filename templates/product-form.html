@@ -1,0 +1,24 @@
+{% extends 'index.html' %}
+{% load crispy_forms_tags %}
+
+{% comment %} {% block title %} Create Variant {% endblock %} {% endcomment %}
+
+{% block content %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4 px-4">
+        <h1 class="h3 mb-0 text-gray-800">Create Product Variant</h1>
+        <a href="{% url 'product:categories' %}" class="float-right btn btn-primary">All Categories</a>
+    </div>
+
+    <div class="row justify-content-center">
+        <form class="col-md-6" method="post" novalidate>
+            {% csrf_token %}
+            <div class="card shadow mb-4">
+                {{form|crispy}}
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
